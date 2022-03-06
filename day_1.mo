@@ -112,11 +112,4 @@ actor {
     _array := Array.sort(array, Nat.compare);
     return _array;
   };
-
-// function main to test
-  public func main () : async () {
-    //counter := 6;
-    Debug.print(debug_show("Counter = ",counter));
-  };
-
 };
