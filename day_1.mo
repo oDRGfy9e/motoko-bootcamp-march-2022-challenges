@@ -1,4 +1,6 @@
 /* Motoko Bootcamp March 2022 Challenges
+** Day 1 Challenge
+** https://github.com/motoko-bootcamp/bootcamp/blob/main/daily_challenges/day_1/GUIDE.MD
 */
 
 import Debug "mo:base/Debug";

@@ -1,0 +1,2 @@
+Do I need to duplicate all my func to be private?
+Text.map(t, capitalize_character_2)
