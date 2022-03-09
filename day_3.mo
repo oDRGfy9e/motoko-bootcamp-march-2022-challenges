@@ -162,18 +162,6 @@ actor {
         return false;
     };
 
-    // Test function to call _private function with Candid UI (and canister call)
-    public func test() : async (){
-        
-        var array : [var Nat] = [var 1, 4, 3, 2];
-
-        Debug.print(debug_show(array));
-        Debug.print(debug_show(_swap(array, 1, 3)));
-
-        return;
-
-    };
-
     public func test_contains(a : [Nat], n : Nat) : async Bool {
         let _contains = func (n : Nat, m : Nat) : Bool {
             if (n == m){
