@@ -7,6 +7,7 @@ import Debug "mo:base/Debug";
 import Array "mo:base/Array";
 import Text "mo:base/Text";
 import Iter "mo:base/Iter";
+import Contains "Utils";
 
 actor {
 
@@ -181,7 +182,7 @@ actor {
                 return false;
             };
         };
-        return(contains<Nat>(a,n,_contains));
+        return(Contains.contains<Nat>(a,n,_contains));
     };
 
 };

@@ -2,7 +2,7 @@ import Iter "mo:base/Iter";
 
 module {
     // function contains<A> takes 3 parameters : an array [A] , a of type A and a function f that takes a tuple of type (A,A) and returns a boolean.
-    func contains<A>(xs : [A], initial : A, f : (A,A) -> Bool): Bool {
+    public func contains<A>(xs : [A], initial : A, f : (A,A) -> Bool): Bool {
         var a = initial;
         let size = xs.size();
         var i = size;
