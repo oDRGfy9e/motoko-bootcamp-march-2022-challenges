@@ -2,6 +2,8 @@
 ** Day 4 Challenge
 ** https://github.com/motoko-bootcamp/bootcamp/blob/main/daily_challenges/day_4/GUIDE.MD
 **
+** Source:
+** https://github.com/dfinity/motoko-base/blob/master/src/List.mo
 */
 
 import Debug "mo:base/Debug";
