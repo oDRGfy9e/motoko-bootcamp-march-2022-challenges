@@ -9,21 +9,20 @@ import HashMap "mo:base/HashMap";
 import Result "mo:base/Result";
 import Iter "mo:base/Iter";
 
-
 // Run some tests to confirm
 
 actor {
 
    // Challenge 2
     var favoriteNumber = HashMap.HashMap<Principal, Nat>(0, Principal.equal, Principal.hash);
-    stable var entries : [(Text, Nat)] = [];
+    stable var entries : [(Principal, Nat)] = [];
 
     system func preupgrade() {
         entries := Iter.toArray(favoriteNumber.entries());
     };
 
     system func postupgrade() {
-        favoriteNumber := HashMap.fromIter<Text, Nat>(entries.vals(), 1, Text.equal, Text.hash);
+        favoriteNumber := HashMap.fromIter<Principal, Nat>(entries.vals(), 1, Principal.equal, Principal.hash);
         entries := [];
     };
 
