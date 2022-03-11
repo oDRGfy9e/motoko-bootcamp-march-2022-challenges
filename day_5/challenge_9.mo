@@ -7,13 +7,25 @@ import Debug "mo:base/Debug";
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Result "mo:base/Result";
+import Iter "mo:base/Iter";
 
-// I couldn't have time to do it - I've done the Challenge 6-7 instead and succeed :D
+
+// Run some tests to confirm
 
 actor {
 
    // Challenge 2
-    let favoriteNumber = HashMap.HashMap<Principal, Nat>(0, Principal.equal, Principal.hash);
+    var favoriteNumber = HashMap.HashMap<Principal, Nat>(0, Principal.equal, Principal.hash);
+    stable var entries : [(Text, Nat)] = [];
+
+    system func preupgrade() {
+        entries := Iter.toArray(favoriteNumber.entries());
+    };
+
+    system func postupgrade() {
+        favoriteNumber := HashMap.fromIter<Text, Nat>(entries.vals(), 1, Text.equal, Text.hash);
+        entries := [];
+    };
 
     // Challenge 3
     // add_favorite_number takes n of type Nat and stores this value in the HashMap where the key is the principal of the caller.
@@ -53,3 +65,4 @@ actor {
             };
         }; 
     };
+};
