@@ -2,7 +2,7 @@ type TokenId = nat;
 service : {
   approve: (principal, TokenId) -> ();
   balanceOf: (principal) -> (opt nat);
-  galleryOf: (principal) -> (opt nat);
+  galleryOf: (principal) -> (vec TokenId);
   getApproved: (nat) -> (principal);
   isApprovedForAll: (principal, principal) -> (bool);
   mint: (text) -> (nat);

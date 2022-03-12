@@ -17567,7 +17567,7 @@ const idlFactory = ({ IDL }) => {
   const DRC721 = IDL.Service({
     'approve' : IDL.Func([IDL.Principal, TokenId], [], []),
     'balanceOf' : IDL.Func([IDL.Principal], [IDL.Opt(IDL.Nat)], []),
-    'galleryOf' : IDL.Func([IDL.Principal], [IDL.Opt(IDL.Nat)], []),
+    'galleryOf' : IDL.Func([IDL.Principal], [IDL.Vec(TokenId)], []),
     'getApproved' : IDL.Func([IDL.Nat], [IDL.Principal], []),
     'isApprovedForAll' : IDL.Func(
         [IDL.Principal, IDL.Principal],
@@ -17699,7 +17699,15 @@ __webpack_require__.r(__webpack_exports__);
 const mint_button = document.getElementById("mint");
 mint_button.addEventListener("click", mint_nft);
 
+var walletConnected = false;
+
 async function mint_nft() {
+
+  if(!walletConnected){
+    alert("Please connect your wallet first");
+    return;
+  };
+  
   // Get the url of the image from the input field
   const name = document.getElementById("name").value.toString();
   console.log("The url we are trying to mint is " + name);
@@ -17748,6 +17756,7 @@ async function onButtonPress(el) {
 
   if (isConnected) {
     console.log('Plug wallet is connected');
+    walletConnected = isConnected;
   } else {
     console.log('Plug wallet connection was refused')
   }
@@ -17760,7 +17769,10 @@ async function onButtonPress(el) {
 
   const balanceOf = await _declarations_minter__WEBPACK_IMPORTED_MODULE_0__.minter.balanceOf(princOfCaller);
   const name = await _declarations_minter__WEBPACK_IMPORTED_MODULE_0__.minter.name();
+  
   document.getElementById("balanceOf").innerText = "You are currenlty owning: " + balanceOf + " of " + name;// + balanceOf;
+  const test = await _declarations_minter__WEBPACK_IMPORTED_MODULE_0__.minter.galleryOf(princOfCaller);
+  document.getElementById("galleryOf").innerText = "Your gallery: " + test;// + balanceOf;
 }
 
 })();

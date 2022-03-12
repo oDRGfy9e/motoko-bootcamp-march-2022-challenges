@@ -120,12 +120,23 @@ actor class DRC721(_name : Text, _symbol : Text) {
         return tokenPk;
     };
 
-    // Where the mess starts
+    // Where the mess starts 
+    
 
-    public shared func galleryOf(p : Principal) : async ?Nat {
-        return balances.get(p);
+    public shared ({caller}) func galleryOf(p: Principal) : async [T.TokenId] {
+        
+        var galleryToken : [T.TokenId] = [];
+        var galleryNFT : [Text] = [];
+        
+        for ((K, V) in owners.entries()) {
+            if (p == V) {
+                galleryToken := Array.append<T.TokenId>(galleryToken,[K]);
+                // get the URI to be nicer
+                //galleryNFT := Array.append<Text>(galleryNFT,[tokenURIs.get(K)]);
+            };
+        };
+        return galleryToken;
     };
-
 
     // Internal
 
