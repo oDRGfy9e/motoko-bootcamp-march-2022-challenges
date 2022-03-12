@@ -11,8 +11,13 @@ import Result "mo:base/Result";
 import Principal "mo:base/Principal";
 import Iter "mo:base/Iter";
 import Cycles "mo:base/ExperimentalCycles";
+import List "mo:base/List";
 
-actor {
+import HTTP "http";
+import Text "mo:base/Text";
+import Option "mo:base/Option";
+
+shared ({ caller = creator }) actor class MyCanister() = {
     
     // Challenge 1
     type TokenIndex = Nat;
@@ -68,6 +73,36 @@ actor {
         return #ok("New Principal owner : " # Principal.toText(to));
     };
 
-    // Moved to core project :( one day to go!
+    // Challenge 5
+    public type List<TokenIndex> = ?(TokenIndex, List<TokenIndex>);
+    
+    public shared ({caller}) func balance() : async List<TokenIndex> {
+        
+        var listOfToken = List.nil<TokenIndex>();
+
+        for((K,V) in registry.entries()) {
+            if (caller == V) {
+                listOfToken := List.push<TokenIndex>(K, listOfToken);
+            };
+        };
+
+        return listOfToken;
+    };
+
+    // HTTP challenges
+    // dfx canister call day_6 http_request '(record {"body"= blob "abc"; "headers"=vec{record{"field1";"field2"};record{"field3";"field4"}};"method"="method text";"url"="urlpath.com"})' 
+    public query func http_request(request : HTTP.Request) : async HTTP.Response {
+        let number = registry.size();
+        let lastPrincipal = registry.get(number - 1); // Principal
+        let lastPrincipalID = Option.get(lastPrincipal, Principal.fromText("2vxsx-fae"));
+        let response = {
+            //body = Text.encodeUtf8("Hello world");
+            body = Text.encodeUtf8("Number of NFT minted : " # Nat.toText(number) # "\n Principal of the latest minter: " # Principal.toText(lastPrincipalID) ) ;
+            headers = [("Content-Type", "text/html; charset=UTF-8")];
+            status_code = 200 : Nat16;
+            streaming_strategy = null
+        };
+        return(response)
+    };
     
 };
