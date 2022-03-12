@@ -22,9 +22,52 @@ async function mint_nft() {
   console.log("The id is " + Number(mintId));
   // Get the id of the minted image.
 
-  // Get the url by asking the minter contract.
-  document.getElementById("nft").src = await minter.tokenURI(mintId);
-
   // Show some information about the minted image.
   document.getElementById("greeting").innerText = "this nft owner is " + principal_string + "\nthis token id is " + Number(mintId);
+
+  // Get the url by asking the minter contract.
+  document.getElementById("nft_minted").src = await minter.tokenURI(mintId);
+}
+
+// Connect to plug
+const button = document.getElementById("connect");
+button.addEventListener("click", onButtonPress);
+
+let princOfCaller = "";
+
+async function onButtonPress(el) {
+  el.target.disabled = true;
+
+  const isConnected = await window.ic.plug.isConnected();
+
+  if(!isConnected) {
+    await window.ic.plug.requestConnect();
+  }
+
+  console.log('requesting connection..');
+
+  if (!window.ic.plug.agent) {
+    await window.ic.plug.createAgent();
+    console.log('agent created');
+  }
+  
+  const prin = await window.ic.plug.agent.getPrincipal();
+  var principalId = prin.toString();
+  princOfCaller = prin;
+
+  if (isConnected) {
+    console.log('Plug wallet is connected');
+  } else {
+    console.log('Plug wallet connection was refused')
+  }
+
+  setTimeout(function () {
+    el.target.disabled = false;
+  }, 5000);
+  document.getElementById("final").innerText = "Your Principal-id: " +princOfCaller; // + balanceOf;
+  document.getElementById('principal').value = princOfCaller; 
+
+  const balanceOf = await minter.balanceOf(princOfCaller);
+  const name = await minter.name();
+  document.getElementById("balanceOf").innerText = "You are currenlty owning: " + balanceOf + " of " + name;// + balanceOf;
 }

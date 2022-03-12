@@ -120,6 +120,12 @@ actor class DRC721(_name : Text, _symbol : Text) {
         return tokenPk;
     };
 
+    // Where the mess starts
+
+    public shared func galleryOf(p : Principal) : async ?Nat {
+        return balances.get(p);
+    };
+
 
     // Internal
 
