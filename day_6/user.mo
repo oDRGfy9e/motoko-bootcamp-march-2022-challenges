@@ -19,7 +19,6 @@ import Principal "mo:base/Principal";
 shared ({ caller = creator }) actor class MyCanister (mainCanister : Principal) = {
 
     public shared ({ caller }) func callMint () : async Result.Result<(), Text> {
-        //mint() : async Result.Result<(), Text>
         let main : actor { mint : () -> async Result.Result<(), Text>; } = actor(Principal.toText(mainCanister));
         let minted = await main.mint();
         minted;
